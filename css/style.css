@@ -1,0 +1,73 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+html,body {
+    height: 100%;
+    font-size: 16px;
+    line-height: 1.5;
+}
+#app {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 100%;
+    color: black;
+}
+.page {
+    flex: 1 1 auto;
+    padding: 16px;
+}
+.wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}
+main {
+    margin: 16px 0;
+    gap: 24px;
+    display: flex;
+    flex-direction: column;
+}
+input {
+    font-size: 16px;
+    padding: 8px 16px;
+    border: 2px solid black;
+}
+button {
+    border-radius: 16px;
+    padding: 8px 16px;
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 0 16px;
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+}
+button:hover {
+    background: bisque;
+}
+button.active {
+    font-weight: 700;
+    background: black;
+    color: white;
+}
+.background-change {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}

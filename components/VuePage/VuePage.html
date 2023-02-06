@@ -1,0 +1,37 @@
+<div :style="{backgroundColor}" class="page">
+    <div class="wrapper">
+        <header>
+            <h1>{{title}}</h1>
+            <h2>{{subtitle}}</h2>
+            <vue-button @click.native="hide=!hide">Hide buttons</vue-button>
+        </header>
+        <main>
+            <section class="input">
+                <div>You can change title here >>></div>
+                <input :value="title" @input="changeTitle" type="text">
+            </section>
+            <section class="input">
+                <div>You can change subtitle here >>></div>
+                <input v-model="subtitle" type="text">
+            </section>
+            <section v-if="!hide"
+                     class="background-change"
+            >
+                <vue-button
+                        :color="'red'"
+                        @make-background="makeBackground"
+                        :class="{active: backgroundColor === 'red'}"
+                ></vue-button>
+                <vue-button
+                        :color="'blue'"
+                        @make-background="makeBackground"
+                        :class="{active: backgroundColor === 'blue'}"
+                ></vue-button>
+                <vue-button
+                        :color="'white'"
+                        @make-background="makeBackground('white')"
+                ></vue-button>
+            </section>
+        </main>
+    </div>
+</div>

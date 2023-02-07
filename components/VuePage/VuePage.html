@@ -14,23 +14,40 @@
                 <div>You can change subtitle here >>></div>
                 <input v-model="subtitle" type="text">
             </section>
-            <section v-if="!hide"
-                     class="background-change"
-            >
-                <vue-button
-                        :color="'red'"
-                        @make-background="makeBackground"
-                        :class="{active: backgroundColor === 'red'}"
-                ></vue-button>
-                <vue-button
-                        :color="'blue'"
-                        @make-background="makeBackground"
-                        :class="{active: backgroundColor === 'blue'}"
-                ></vue-button>
-                <vue-button
-                        :color="'white'"
-                        @make-background="makeBackground('white')"
-                ></vue-button>
+            <transition name="fade">
+                <section v-if="!hide"
+                         class="background-change"
+                >
+                    <vue-button
+                            :color="'red'"
+                            @make-background="makeBackground"
+                            :class="{active: backgroundColor === 'red'}"
+                    ></vue-button>
+                    <vue-button
+                            :color="'blue'"
+                            @make-background="makeBackground"
+                            :class="{active: backgroundColor === 'blue'}"
+                    ></vue-button>
+                    <vue-button
+                            :color="'white'"
+                            @make-background="makeBackground('white')"
+                    ></vue-button>
+                </section>
+            </transition>
+
+            <section class="list">
+                <h3>List</h3>
+                <div class="list__add">Wripe content for new item here >>><input @keydown.enter="addNewItem" v-model="newItem" type="text"></div>
+                <button @click="addNewItem">Add new item</button>
+
+                <ul>
+                    <transition-group name="item">
+                        <li v-for="item in sortedList" :key="item.id">
+                            <span>{{item.content}}</span>
+                            <button @click="deleteItem(item.id)">Delete</button>
+                        </li>
+                    </transition-group>
+                </ul>
             </section>
         </main>
     </div>

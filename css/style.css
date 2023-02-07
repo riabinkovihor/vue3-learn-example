@@ -3,6 +3,23 @@
     padding: 0;
     border: 0;
 }
+
+ul {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin: 24px auto;
+}
+li {
+    margin: 0;
+    padding: 16px 32px;
+    background: #785959;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
 html,body {
     height: 100%;
     font-size: 16px;
@@ -70,4 +87,39 @@ button.active {
     justify-content: center;
     align-items: center;
     gap: 16px;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.list__add {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.fade-enter-from,
+.fade-leave-to{
+    opacity: 0;
+    transform: translateY(20px);
+}
+.fade-enter-active,
+.fade-leave-active{
+    transition: 0.3s ease;
+}
+.item-enter-from {
+    opacity: 0;
+    transform: translateX(-20px);
+}
+.item-leave-to {
+    opacity: 0;
+    transform: translateX(20px);
+}
+.item-enter-active,
+.item-leave-active{
+    transition: 0.7s ease;
 }

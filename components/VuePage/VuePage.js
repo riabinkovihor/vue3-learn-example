@@ -23,6 +23,7 @@ const VuePage = {
             this.title = e.target.value
         },
         addNewItem() {
+            if(!this.newItem) return
             this.itemId = this.itemId + 1
             this.list = [...this.list,{
                 id: this.itemId,
@@ -36,7 +37,7 @@ const VuePage = {
     },
     computed: {
       sortedList() {
-          return this.list.sort((a,b) => b.content.toLowerCase() - a.content.toLowerCase())
+          return this.list.sort((a,b) => a.content.localeCompare(b.content))
       }
     },
     components: {

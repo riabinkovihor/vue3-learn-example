@@ -8,52 +8,267 @@
     <meta http-equiv="X-UA-Compatible"
           content="ie=edge"
     >
-    <title>Document</title>
-    <link rel="stylesheet" href="./css/style.css">
+    <title>Vue 3 Example</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin: 24px auto;
+        }
+        li {
+            margin: 0;
+            padding: 16px 32px;
+            background: #785959;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        html,body {
+            height: 100%;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        #app {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            min-height: 100%;
+            color: black;
+        }
+        .page {
+            flex: 1 1 auto;
+            padding: 16px;
+        }
+        .wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        header {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+        }
+        main {
+            margin: 16px 0;
+            gap: 24px;
+            display: flex;
+            flex-direction: column;
+        }
+        input {
+            font-size: 16px;
+            padding: 8px 16px;
+            border: 2px solid black;
+        }
+        button {
+            border-radius: 16px;
+            padding: 8px 16px;
+            font-size: 16px;
+            line-height: 1.5;
+            margin: 0 16px;
+            transition: all 0.3s ease 0s;
+            cursor: pointer;
+        }
+        button:hover {
+            background: bisque;
+        }
+        button.active {
+            font-weight: 700;
+            background: black;
+            color: white;
+        }
+        .background-change {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .input {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .list {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .list__add {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .fade-enter-from,
+        .fade-leave-to{
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .fade-enter-active,
+        .fade-leave-active{
+            transition: 0.3s ease;
+        }
+        .item-enter-from {
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+        .item-leave-to {
+            opacity: 0;
+            transform: translateX(20px);
+        }
+        .item-enter-active,
+        .item-leave-active{
+            transition: 0.7s ease;
+        }
+
+    </style>
 </head>
 <body>
-    <div id="app"></div>
-    <script type="module" src="app.js"></script>
-<!--    <script type="module">-->
-<!--        import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.prod.js'-->
-<!--        const VueButton = {-->
-<!--            template: `<button :class="{active}" @click="$emit('make-background',color)"><slot>Make {{color}}</slot></button>`,-->
-<!--            props:{-->
-<!--                active: {-->
-<!--                    type: Boolean,-->
-<!--                    default: false-->
-<!--                },-->
-<!--                color: {-->
-<!--                    type: String,-->
-<!--                    default: ''-->
-<!--                }-->
-<!--            }-->
-<!--        }-->
+    <div id="app">
+        <div :style="{backgroundColor}" class="page">
+            <div class="wrapper">
+                <header>
+                    <h1>{{title}}</h1>
+                    <h2>{{subtitle}}</h2>
+                    <vue-button @click.native="hide=!hide">Hide buttons</vue-button>
+                </header>
+                <main>
+                    <section class="input">
+                        <div>You can change title here >>></div>
+                        <input :value="title" @input="changeTitle" type="text">
+                    </section>
+                    <section class="input">
+                        <div>You can change subtitle here >>></div>
+                        <input v-model="subtitle" type="text">
+                    </section>
+                    <transition name="fade">
+                        <section v-if="!hide"
+                                 class="background-change"
+                        >
+                            <vue-button
+                                    v-for="color in bgColors"
+                                    :color="color"
+                                    @make-background="makeBackground"
+                                    :class="{active: backgroundColor === color}"
+                            ></vue-button>
+                        </section>
+                    </transition>
 
-<!--        const VuePage = {-->
-<!--            data() {-->
-<!--                return {-->
-<!--                    title: 'Vue Example',-->
-<!--                    subtitle: 'for learning',-->
-<!--                    backgroundColor: 'white',-->
-<!--                    hide: false-->
-<!--                }-->
-<!--            },-->
-<!--            methods: {-->
-<!--                makeBackground(color) {-->
-<!--                    this.backgroundColor = color-->
-<!--                },-->
-<!--                changeTitle(e) {-->
-<!--                    this.title = e.target.value-->
-<!--                }-->
-<!--            },-->
-<!--            components: {-->
-<!--                'vue-button':VueButton-->
-<!--            }-->
-<!--        }-->
+                    <section class="list">
+                        <h3>List</h3>
+                        <div class="list__add">Wripe content for new item here >>><input @keydown.enter="addNewItem" v-model="newItem" type="text"></div>
+                        <button @click="addNewItem">Add new item</button>
 
-<!--        const app = createApp(VuePage)-->
-<!--        app.mount('#app')-->
-<!--    </script>-->
+                        <ul>
+                            <transition-group name="item">
+                                <li v-for="item in sortedList" :key="item.id">
+                                    <span>{{item.content}}</span>
+                                    <button @click="deleteItem(item.id)">Delete</button>
+                                </li>
+                            </transition-group>
+                        </ul>
+                    </section>
+                </main>
+            </div>
+        </div>
+
+    </div>
+<!--    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>-->
+    <script type="module">
+        // const { createApp } = Vue
+        import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.prod.js'
+        const VueButton = {
+            template: `
+              <button
+                :class="{active}"
+                @click="changeColor">
+                <slot>Make {{color}}</slot>
+              </button>`,
+            props:{
+                active: {
+                    type: Boolean,
+                    default: false
+                },
+                color: {
+                    type: String,
+                    default: ''
+                }
+            },
+            methods: {
+                changeColor() {
+                    if (this.color) this.$emit('make-background',this.color)
+                }
+            }
+        }
+
+        const VuePage = {
+            data() {
+                return {
+                    title: 'Vue Example',
+                    subtitle: 'for learning',
+                    backgroundColor: 'white',
+                    hide: false,
+                    list: [],
+                    newItem: '',
+                    itemId: 5,
+                    bgColors: ['red','blue','white']
+                }
+            },
+            methods: {
+                makeBackground(color) {
+                    this.backgroundColor = color
+                },
+                changeTitle(e) {
+                    this.title = e.target.value
+                },
+                addNewItem() {
+                    if(!this.newItem) return
+                    this.itemId = this.itemId + 1
+                    this.list = [...this.list,{
+                        id: this.itemId,
+                        content: this.newItem
+                    }]
+                    this.newItem = ''
+                },
+                deleteItem(id) {
+                    this.list = this.list.filter(item => item.id !== id)
+                }
+            },
+            computed: {
+                sortedList() {
+                    return this.list.sort((a,b) => a.content.localeCompare(b.content))
+                }
+            },
+            components: {
+                'vue-button':VueButton
+            },
+            mounted() {
+                for (let i = 1; i < this.itemId; i++) {
+                    this.list.push({
+                        id: i,
+                        content: `Item-${i}`
+                    })
+                }
+            }
+        }
+
+        const app = createApp(VuePage)
+        app.mount('#app')
+    </script>
 </body>
 </html>
